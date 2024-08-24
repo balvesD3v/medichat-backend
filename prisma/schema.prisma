@@ -29,7 +29,7 @@ model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
   password  String
-  role      Role[]
+  role      Role      @default(PATIENT)
   name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -49,6 +49,8 @@ model Doctor {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   Appointment    Appointment[]
+
+  @@map("doctor")
 }
 
 model Patient {
@@ -71,6 +73,8 @@ model Appointment {
   scheduledAt DateTime
   status      Status[]
   Chat        Chat[]
+
+  @@map("appointment")
 }
 
 model Chat {
@@ -80,6 +84,8 @@ model Chat {
   messages      Message[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  @@map("chat")
 }
 
 model Message {
@@ -89,4 +95,6 @@ model Message {
   Chat     Chat?    @relation(fields: [chatId], references: [id])
   chatId   Int?
   sent     DateTime
+
+  @@map("message")
 }
