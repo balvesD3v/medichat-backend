@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: bitnami/postgresql:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=medichat
+      - POSTGRES_PASSWORD=medichat
+      - POSTGRES_DB=medichat
+    volumes:
+      - medichat_pg_data:/bitnami/postgresql
+
+volumes:
+  medichat_pg_data:
