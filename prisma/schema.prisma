@@ -20,7 +20,7 @@ enum Role {
 }
 
 enum Status {
-  PEDING
+  SCHEDULED
   CONFIRMED
   CANCELLED
 }
@@ -41,25 +41,32 @@ model User {
 }
 
 model Doctor {
-  id             Int           @id @default(autoincrement())
-  userId         Int
-  user           User          @relation(fields: [userId], references: [id])
-  specialization String[]
-  availableTimes String[]
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  Appointment    Appointment[]
+  id              Int           @id @default(autoincrement())
+  userId          Int
+  user            User          @relation(fields: [userId], references: [id])
+  specialization  String[]
+  availableTimes  String[]
+  licenseNumber   Int
+  licenseDocument String
+  clinicAddress   String
+  phone           Int
+  approved        Boolean
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  Appointment     Appointment[]
 
   @@map("doctor")
 }
 
 model Patient {
-  id             Int           @id @default(autoincrement())
-  userId         Int
-  user           User          @relation(fields: [userId], references: [id])
-  birthdate      DateTime
-  medicalHistory String
-  Appointment    Appointment[]
+  id               Int           @id @default(autoincrement())
+  userId           Int
+  user             User          @relation(fields: [userId], references: [id])
+  phone            Int
+  emergencyContact Int
+  birthdate        DateTime
+  medicalHistory   String
+  Appointment      Appointment[]
 
   @@map("patient")
 }
