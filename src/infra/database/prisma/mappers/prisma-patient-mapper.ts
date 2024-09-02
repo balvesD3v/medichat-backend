@@ -14,7 +14,7 @@ export class PrismaPatientMapper {
         email: user.email,
         password: user.password,
         phone: user.phone,
-        birthDate: patient.birthdate,
+        birthDate: patient.birthDate ? new Date(patient.birthDate) : null,
         medicalHistory: patient.medicalHistory,
         emergencyContact: patient.emergencyContact,
       },
@@ -28,15 +28,18 @@ export class PrismaPatientMapper {
       name: patient.name.toString(),
       email: patient.email.toString(),
       password: patient.password,
+      phone: patient.phone,
     }
   }
 
   static toPrismaPatient(patient: Patient): Prisma.PatientUncheckedCreateInput {
     return {
       id: patient.id.toString(),
-      birthdate: patient.birthDate,
+      birthDate: patient.birthDate,
       emergencyContact: patient.emergencyContact.toString(),
-      medicalHistory: patient.medicalHistory.toString(),
+      medicalHistory: patient.medicalHistory
+        ? patient.medicalHistory.toString()
+        : null,
     }
   }
 }

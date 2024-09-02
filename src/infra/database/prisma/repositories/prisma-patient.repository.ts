@@ -34,7 +34,7 @@ export class PrismaPatientRepository implements PatientRepository {
       },
     })
 
-    if (!user) {
+    if (!user || !user.patient) {
       return null
     }
 

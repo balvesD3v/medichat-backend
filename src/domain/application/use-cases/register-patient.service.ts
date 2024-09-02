@@ -11,7 +11,7 @@ interface RegisterPatientUseCaseRequest {
   password: string
   phone: string
   birthDate: Date
-  medicalHistory: string
+  medicalHistory?: string
   emergencyContact: string
 }
 

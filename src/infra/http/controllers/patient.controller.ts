@@ -17,8 +17,10 @@ const createAccountBodySchema = z.object({
   email: z.string().email(),
   password: z.string(),
   phone: z.string(),
-  birthDate: z.date(),
-  medicalHistory: z.string(),
+  birthDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: 'Invalid date format',
+  }),
+  medicalHistory: z.string().optional(),
   emergencyContact: z.string(),
 })
 
@@ -40,14 +42,14 @@ export class PatientController {
       birthDate,
       medicalHistory,
       emergencyContact,
-    } = createAccountBodySchema.parse(body)
+    } = body
 
     const result = await this.registerPatient.execute({
       name,
       email,
       password,
       phone,
-      birthDate,
+      birthDate: new Date(birthDate),
       medicalHistory,
       emergencyContact,
     })
