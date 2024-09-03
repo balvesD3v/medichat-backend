@@ -51,7 +51,6 @@ model Doctor {
   professionalRegistration    String
   certificateOfSpecialization String
   clinicAddress               String
-  approved                    Boolean
 
   // Relacionamento 1:1 com User
   userId String @unique

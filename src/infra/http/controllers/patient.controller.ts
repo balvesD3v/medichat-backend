@@ -15,7 +15,7 @@ import { WrongCredentialsError } from '@/domain/application/use-cases/errors/wro
 const createAccountBodySchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(6),
   phone: z.string(),
   birthDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Invalid date format',
