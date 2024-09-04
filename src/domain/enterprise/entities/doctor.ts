@@ -11,6 +11,8 @@ export interface DoctorProps {
   professionalRegistration: string
   certificateOfSpecialization: string
   clinicAddress: string
+  specialization: string[]
+  availableTimes: string[]
 }
 
 export class Doctor extends Entity<DoctorProps> {
@@ -48,6 +50,14 @@ export class Doctor extends Entity<DoctorProps> {
 
   get clinicAddress() {
     return this.props.clinicAddress
+  }
+
+  get specialization() {
+    return this.props.specialization
+  }
+
+  get availableTimes() {
+    return this.props.availableTimes
   }
 
   static create(props: DoctorProps, id?: UniqueEntityId) {
