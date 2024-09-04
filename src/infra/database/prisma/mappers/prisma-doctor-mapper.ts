@@ -33,6 +33,7 @@ export class PrismaDoctorMapper {
       email: Doctor.email.toString(),
       password: Doctor.password,
       phone: Doctor.phone,
+      role: 'DOCTOR',
     }
   }
 
