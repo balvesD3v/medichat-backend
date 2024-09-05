@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common'
 import { HttpModule } from './http/http.module'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [HttpModule],
+  imports: [ConfigModule.forRoot(), HttpModule],
   controllers: [],
   providers: [],
 })
