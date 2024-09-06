@@ -11,6 +11,7 @@ import { z } from 'zod'
 import { ZodValidaionPipe } from '../pipes/zod-validation.pipe'
 import { RegisterPatientUseCase } from '@/domain/application/use-cases/register-patient.service'
 import { WrongCredentialsError } from '@/domain/application/use-cases/errors/wrong-credentials-error'
+import { Public } from '@/infra/auth/public'
 
 const createPatientBodySchema = z.object({
   name: z.string(),
@@ -27,10 +28,11 @@ const createPatientBodySchema = z.object({
 type CreateAccountSchema = z.infer<typeof createPatientBodySchema>
 
 @Controller('register-patient')
-export class PatientController {
+export class CreatePatientController {
   constructor(private readonly registerPatient: RegisterPatientUseCase) {}
 
   @Post()
+  @Public()
   @HttpCode(201)
   @UsePipes(new ZodValidaionPipe(createPatientBodySchema))
   async create(@Body() body: CreateAccountSchema) {
