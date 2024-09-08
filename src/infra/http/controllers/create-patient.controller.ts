@@ -8,7 +8,7 @@ import {
   BadRequestException,
 } from '@nestjs/common'
 import { z } from 'zod'
-import { ZodValidaionPipe } from '../pipes/zod-validation.pipe'
+import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
 import { RegisterPatientUseCase } from '@/domain/application/use-cases/register-patient.service'
 import { WrongCredentialsError } from '@/domain/application/use-cases/errors/wrong-credentials-error'
 import { Public } from '@/infra/auth/public'
@@ -34,7 +34,7 @@ export class CreatePatientController {
   @Post()
   @Public()
   @HttpCode(201)
-  @UsePipes(new ZodValidaionPipe(createPatientBodySchema))
+  @UsePipes(new ZodValidationPipe(createPatientBodySchema))
   async create(@Body() body: CreateAccountSchema) {
     const {
       email,

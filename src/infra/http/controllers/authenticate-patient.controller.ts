@@ -1,4 +1,3 @@
-import { AuthenticateDoctorUseCase } from '@/domain/application/use-cases/authenticate-doctor.service'
 import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
@@ -9,27 +8,30 @@ import {
   UsePipes,
 } from '@nestjs/common'
 import { z } from 'zod'
-import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
 import { WrongCredentialsError } from '@/domain/application/use-cases/errors/wrong-credentials-error'
+import { AuthenticatePatientUseCase } from '@/domain/application/use-cases/authenticate-patient.service'
+import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
 
-const authDoctorBodySchema = z.object({
+const authPatientBodySchema = z.object({
   email: z.string(),
   password: z.string(),
 })
 
-type AuthDoctorBodySchema = z.infer<typeof authDoctorBodySchema>
+type AuthPatientBodySchema = z.infer<typeof authPatientBodySchema>
 
-@Controller('auth-doctor')
+@Controller('auth-patient')
 @Public()
-export class AuthenticateDoctorController {
-  constructor(private readonly authenticateDoctor: AuthenticateDoctorUseCase) {}
+export class AuthenticatePatientController {
+  constructor(
+    private readonly authenticatePatient: AuthenticatePatientUseCase,
+  ) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(authDoctorBodySchema))
-  async handle(@Body() body: AuthDoctorBodySchema) {
+  @UsePipes(new ZodValidationPipe(authPatientBodySchema))
+  async handle(@Body() body: AuthPatientBodySchema) {
     const { email, password } = body
 
-    const result = await this.authenticateDoctor.execute({
+    const result = await this.authenticatePatient.execute({
       email,
       password,
     })

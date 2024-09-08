@@ -7,6 +7,8 @@ import { RegisterDoctorUseCase } from '@/domain/application/use-cases/register-d
 import { CreateDoctorController } from './controllers/create-doctor.controller'
 import { AuthenticateDoctorUseCase } from '@/domain/application/use-cases/authenticate-doctor.service'
 import { AuthenticateDoctorController } from './controllers/authenticate-doctor.controller'
+import { AuthenticatePatientController } from './controllers/authenticate-patient.controller'
+import { AuthenticatePatientUseCase } from '@/domain/application/use-cases/authenticate-patient.service'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -14,11 +16,13 @@ import { AuthenticateDoctorController } from './controllers/authenticate-doctor.
     CreateDoctorController,
     CreatePatientController,
     AuthenticateDoctorController,
+    AuthenticatePatientController,
   ],
   providers: [
     RegisterPatientUseCase,
     RegisterDoctorUseCase,
     AuthenticateDoctorUseCase,
+    AuthenticatePatientUseCase,
   ],
 })
 export class HttpModule {}
