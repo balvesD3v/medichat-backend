@@ -49,6 +49,8 @@ export class AuthenticateDoctorController {
     const { acessToken } = result.value
 
     return {
+      email,
+      password,
       acess_token: acessToken,
     }
   }
