@@ -13,11 +13,23 @@ import { WrongCredentialsError } from '@/domain/application/use-cases/errors/wro
 import { RegisterDoctorUseCase } from '@/domain/application/use-cases/register-doctor.service'
 import { Public } from '@/infra/auth/public'
 
+const phoneValidation =
+  /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$/
+
+const passwordValidation =
+  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+
 const createDoctorBodySchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  password: z.string().min(6),
-  phone: z.string(),
+  password: z.string().regex(passwordValidation, {
+    message:
+      'Your password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 8 characters long',
+  }),
+  phone: z.string().regex(phoneValidation, {
+    message:
+      'Invalid phone number format. Please enter a valid Brazilian phone number.',
+  }),
   graduateDiploma: z.string(),
   medicalResidencyCertificate: z.string(),
   professionalRegistration: z.string(),

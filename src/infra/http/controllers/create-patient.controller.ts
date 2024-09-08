@@ -13,11 +13,20 @@ import { RegisterPatientUseCase } from '@/domain/application/use-cases/register-
 import { WrongCredentialsError } from '@/domain/application/use-cases/errors/wrong-credentials-error'
 import { Public } from '@/infra/auth/public'
 
+const phoneValidation =
+  /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$/
+
+const passwordValidation =
+  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+
 const createPatientBodySchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  password: z.string().min(6),
-  phone: z.string(),
+  password: z.string().regex(passwordValidation, {
+    message:
+      'Invalid phone number format. Please enter a valid Brazilian phone number.',
+  }),
+  phone: z.string().regex(phoneValidation),
   birthDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Invalid date format',
   }),
