@@ -40,4 +40,19 @@ export class PrismaDoctorRepository implements DoctorRepository {
 
     return PrismaDoctorMapper.toDomain(user, user.doctor)
   }
+
+  async saveResetToken(userId: string, token: string): Promise<void> {
+    await this.prisma.passwordResetToken.upsert({
+      where: { userId },
+      update: {
+        token,
+        expiresAt: new Date(Date.now() + 3600000),
+      },
+      create: {
+        userId,
+        token,
+        expiresAt: new Date(Date.now() + 3600000),
+      },
+    })
+  }
 }

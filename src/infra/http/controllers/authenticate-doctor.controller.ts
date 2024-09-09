@@ -54,4 +54,7 @@ export class AuthenticateDoctorController {
       acess_token: acessToken,
     }
   }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body('email') email: string) {}
 }
