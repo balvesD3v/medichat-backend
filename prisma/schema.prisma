@@ -36,19 +36,10 @@ model User {
   Appointment Appointment[]
 
   // Relacionamento 1:1 com Doctor e Patient
-  doctor             Doctor?
-  patient            Patient?
-  PasswordResetToken PasswordResetToken?
+  doctor  Doctor?
+  patient Patient?
 
   @@map("users")
-}
-
-model PasswordResetToken {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  token     String   @unique
-  expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Doctor {
