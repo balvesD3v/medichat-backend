@@ -7,9 +7,7 @@ import { Patient } from '@/domain/enterprise/entities/patient'
 
 interface EditPatientUseCaseRequest {
   userId: string
-  name: string
   email: string
-  birthDate: string
 }
 
 type EditPatientUseCaseResponse = Either<
@@ -25,8 +23,6 @@ export class EditPatientUseCase {
 
   async execute({
     userId,
-    name,
-    birthDate,
     email,
   }: EditPatientUseCaseRequest): Promise<EditPatientUseCaseResponse> {
     const patient = await this.patientRepository.findByEmail(email)
@@ -38,7 +34,7 @@ export class EditPatientUseCase {
     const updatedPatient = await this.patientRepository.save(patient, userId)
 
     return right({
-      updatedPatient,
+      patient: updatedPatient,
     })
   }
 }

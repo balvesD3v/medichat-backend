@@ -34,7 +34,7 @@ const createPatientBodySchema = z.object({
   emergencyContact: z.string(),
 })
 
-type CreateAccountSchema = z.infer<typeof createPatientBodySchema>
+type CreatePatientAccountSchema = z.infer<typeof createPatientBodySchema>
 
 @Controller('register-patient')
 export class CreatePatientController {
@@ -44,7 +44,7 @@ export class CreatePatientController {
   @Public()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createPatientBodySchema))
-  async create(@Body() body: CreateAccountSchema) {
+  async create(@Body() body: CreatePatientAccountSchema) {
     const {
       email,
       name,
