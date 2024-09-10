@@ -40,4 +40,29 @@ export class PrismaPatientRepository implements PatientRepository {
 
     return PrismaPatientMapper.toDomain(user, user.patient)
   }
+
+  async save(patient: Patient, id: string): Promise<Patient | null> {
+    const userData = PrismaPatientMapper.toPrismaUser(patient)
+
+    const updateUser = await this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: userData,
+    })
+
+    const patientData = PrismaPatientMapper.toPrismaPatient(patient)
+    const updatedPatient = await this.prisma.patient.update({
+      where: { userId: updateUser.id },
+      data: {
+        ...patientData,
+        userId: updateUser.id,
+      },
+      include: {
+        user: true,
+      },
+    })
+
+    return PrismaPatientMapper.toDomain(updateUser, updatedPatient)
+  }
 }
