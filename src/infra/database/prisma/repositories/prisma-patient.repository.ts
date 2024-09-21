@@ -41,7 +41,7 @@ export class PrismaPatientRepository implements PatientRepository {
     return PrismaPatientMapper.toDomain(user, user.patient)
   }
 
-  async save(patient: Patient, id: string): Promise<Patient | null> {
+  async update(patient: Patient, id: string): Promise<void> {
     const userData = PrismaPatientMapper.toPrismaUser(patient)
 
     const updateUser = await this.prisma.user.update({
@@ -52,7 +52,7 @@ export class PrismaPatientRepository implements PatientRepository {
     })
 
     const patientData = PrismaPatientMapper.toPrismaPatient(patient)
-    const updatedPatient = await this.prisma.patient.update({
+    await this.prisma.patient.update({
       where: { userId: updateUser.id },
       data: {
         ...patientData,
@@ -62,7 +62,5 @@ export class PrismaPatientRepository implements PatientRepository {
         user: true,
       },
     })
-
-    return PrismaPatientMapper.toDomain(updateUser, updatedPatient)
   }
 }

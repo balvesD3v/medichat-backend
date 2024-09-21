@@ -4,17 +4,20 @@ import {
   Body,
   Controller,
   HttpCode,
-  Post,
+  Param,
+  Put,
   UnauthorizedException,
   UsePipes,
 } from '@nestjs/common'
 import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
 import { z } from 'zod'
 import { WrongCredentialsError } from '@/domain/application/use-cases/errors/wrong-credentials-error'
+import { CurrentUser } from '@/infra/auth/current-user.decorator'
+import { UserPayload } from '@/infra/auth/jwt.strategy'
 
 const createPatientBodySchema = z.object({
   userId: z.string(),
-  email: z.string(),
+  email: z.string().email(),
 })
 
 type EditPatientAccountSchema = z.infer<typeof createPatientBodySchema>
@@ -23,13 +26,18 @@ type EditPatientAccountSchema = z.infer<typeof createPatientBodySchema>
 export class EditPatientController {
   constructor(private readonly editPatient: EditPatientUseCase) {}
 
-  @Post()
+  @Put(':id')
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createPatientBodySchema))
-  async create(@Body() body: EditPatientAccountSchema) {
-    const { email, userId } = body
+  async update(
+    @Body() body: EditPatientAccountSchema,
+    @CurrentUser() user: UserPayload,
+    @Param('id') patientId: string,
+  ) {
+    const { email } = body
+    const userId = user.sub
 
-    const result = await this.editPatient.execute({ email, userId })
+    const result = await this.editPatient.execute({ email, userId, patientId })
 
     if (result.isLeft()) {
       const error = result.value

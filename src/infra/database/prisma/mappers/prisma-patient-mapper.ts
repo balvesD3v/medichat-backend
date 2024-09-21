@@ -40,7 +40,6 @@ export class PrismaPatientMapper {
       medicalHistory: patient.medicalHistory
         ? patient.medicalHistory.toString()
         : null,
-      userId: patient.id.toString(),
     }
   }
 }

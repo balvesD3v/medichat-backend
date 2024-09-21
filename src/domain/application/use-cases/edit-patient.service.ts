@@ -31,10 +31,10 @@ export class EditPatientUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    const updatedPatient = await this.patientRepository.save(patient, userId)
+    await this.patientRepository.update(patient, userId)
 
     return right({
-      patient: updatedPatient,
+      patient,
     })
   }
 }
