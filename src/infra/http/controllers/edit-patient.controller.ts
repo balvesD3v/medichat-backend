@@ -37,7 +37,7 @@ export class EditPatientController {
     const { email } = body
     const userId = user.sub
 
-    const result = await this.editPatient.execute({ email, userId, patientId })
+    const result = await this.editPatient.execute({ email, patientId: userId })
 
     if (result.isLeft()) {
       const error = result.value

@@ -6,7 +6,7 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { Patient } from '@/domain/enterprise/entities/patient'
 
 interface EditPatientUseCaseRequest {
-  userId: string
+  patientId: string
   email: string
 }
 
@@ -22,7 +22,7 @@ export class EditPatientUseCase {
   constructor(private readonly patientRepository: PatientRepository) {}
 
   async execute({
-    userId,
+    patientId,
     email,
   }: EditPatientUseCaseRequest): Promise<EditPatientUseCaseResponse> {
     const patient = await this.patientRepository.findByEmail(email)
@@ -31,7 +31,7 @@ export class EditPatientUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    await this.patientRepository.update(patient, userId)
+    await this.patientRepository.update(patient, patientId)
 
     return right({
       patient,
